@@ -27,6 +27,9 @@ from opencensus.trace.tracer import Tracer
 
 app = Flask(__name__)
 
+# Load configurations from environment or config file
+app.config.from_pyfile('config_file.cfg')
+
 # Application Insight Instrumentation Key
 instrumentation_key = app.config['APP_INSIGHTS_INSTRUMENTATION_KEY']
 
@@ -71,9 +74,6 @@ middleware = FlaskMiddleware(
     exporter=AzureExporter(connection_string=instrumentation_key),
     sampler=ProbabilitySampler(rate=1.0)
 )
-
-# Load configurations from environment or config file
-app.config.from_pyfile('config_file.cfg')
 
 if ("VOTE1VALUE" in os.environ and os.environ['VOTE1VALUE']):
     button1 = os.environ['VOTE1VALUE']
